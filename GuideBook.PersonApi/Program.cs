@@ -17,9 +17,9 @@ builder.Services.Configure<MongoDbConnection>(options =>
 {
     options.ConnectionString = builder.Configuration.GetSection(nameof(MongoDbConnection) + ":" + MongoDbConnection.ConnectionStringValue).Value;
     options.Database = builder.Configuration.GetSection(nameof(MongoDbConnection) + ":" + MongoDbConnection.DatabaseValue).Value;
-}); 
-builder.Services.AddScoped<IContactInfoService, ContactInfoService>();
-builder.Services.AddScoped<IContactInfoRepository, ContactInfoRepository>();
+});
+builder.Services.AddScoped<IPersonService, PersonService>();
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 
 var app = builder.Build();
 
@@ -29,6 +29,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

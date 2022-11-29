@@ -1,7 +1,6 @@
 using GuideBook.BLayer.Interfaces;
-using GuideBook.Entities;
 using GuideBook.Dto;
-using GuideBook.Dto.ServiceResults;
+using GuideBook.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GuideBook.ReportApi.Controllers

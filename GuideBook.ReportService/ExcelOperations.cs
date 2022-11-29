@@ -1,6 +1,5 @@
 ﻿using ClosedXML.Excel;
 using GuideBook.Dto;
-using GuideBook.Dto.ServiceResults;
 using Newtonsoft.Json;
 using RestSharp;
 

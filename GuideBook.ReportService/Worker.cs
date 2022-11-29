@@ -1,12 +1,11 @@
+using GuideBook.Dto;
+using GuideBook.Helper;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RestSharp;
-using GuideBook.Helper;
-using GuideBook.Dto;
-using GuideBook.Dto.ServiceResults;
 using System.Text;
 
 namespace GuideBook.ReportService;

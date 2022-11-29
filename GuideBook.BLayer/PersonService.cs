@@ -9,9 +9,11 @@ namespace GuideBook.BLayer;
 
 public class PersonService : EntityService<Person, PersonDto>, IPersonService
 {
+    private readonly IContactInfoRepository contactInfoRepository;
     private IPersonRepository Repository => (IPersonRepository)repository;
-    public PersonService(IPersonRepository _personRepository) : base(_personRepository)
+    public PersonService(IPersonRepository _personRepository, IContactInfoRepository _contactInfoRepository) : base(_personRepository)
     {
+        contactInfoRepository = _contactInfoRepository;
     }
     public override PersonDto ToDTO(Person bo) => new()
     {
@@ -59,4 +61,72 @@ public class PersonService : EntityService<Person, PersonDto>, IPersonService
         }
     }
 
+    public async Task<ServiceResult<ContactInfoViewModel>> GetPersonAllData(Guid personId)
+    {
+        try
+        {
+            var person = await GetByIdAsync(personId);
+            if (person == null)
+            {
+                return new ServiceResult<ContactInfoViewModel>(nameof(Messages.PersonNotFound), Messages.PersonNotFound);
+            }
+
+            var contactInfovm = new ContactInfoViewModel
+            {
+                Person = new PersonDto
+                {
+                    Id = person.Id,
+                    Name = person.Name,
+                    Surname = person.Surname,
+                    Company = person.Company
+                }
+            };
+
+            var personDetails = await contactInfoRepository.GetAll(x => x.PersonId == personId);
+            personDetails.ForEach(x =>
+            {
+                contactInfovm.ContactInfos.Add(new ContactInfoDto
+                {
+                    ContactType = x.ContactType,
+                    Info = x.Info,
+                    Id = x.Id
+                });
+            });
+            return new ServiceResult<ContactInfoViewModel>(nameof(Messages.Success), Messages.Success, contactInfovm);
+        }
+        catch
+        {
+            return new ServiceResult<ContactInfoViewModel>(nameof(Messages.AnErrorOccured), Messages.AnErrorOccured);
+        }
+    }
+
+    public async Task<ServiceResult<ExcelReportViewModel>> GetReportWithLocation(string location)
+    {
+        try
+        {
+            var excelReportVm = new ExcelReportViewModel(location);
+
+            var _phoneCount = 0;
+            var personList = await contactInfoRepository.GetAll(x => x.ContactType == EContactType.Location && x.Info == location);
+
+            excelReportVm.PersonCount = personList.Count;
+
+            var allPerson = await Repository.GetAll();
+            foreach (var item in allPerson)
+            {
+                var personDetails = await contactInfoRepository.GetAll(x => x.PersonId == item.Id);
+                if (personDetails.Any(x => x.Info == location))
+                {
+                    _phoneCount += personDetails.Where(x => x.ContactType == EContactType.Phone).Select(x => x.Info).Distinct().Count();
+                }
+            }
+            excelReportVm.PhoneCount = _phoneCount;
+
+            return new ServiceResult<ExcelReportViewModel>(nameof(Messages.Success), Messages.Success, excelReportVm);
+        }
+        catch
+        {
+            return new ServiceResult<ExcelReportViewModel>(nameof(Messages.AnErrorOccured), Messages.AnErrorOccured);
+        }
+    }
 }

@@ -3,31 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.Dal", "GuideBook.Dal\GuideBook.Dal.csproj", "{C46DE2FF-1DAE-43FE-B600-7B4C19E61935}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.Dal", "GuideBook.Dal\GuideBook.Dal.csproj", "{C46DE2FF-1DAE-43FE-B600-7B4C19E61935}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.Repository", "GuideBook.Repository\GuideBook.Repository.csproj", "{110CC594-2EB0-4142-9C05-1C43F909117C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.Repository", "GuideBook.Repository\GuideBook.Repository.csproj", "{110CC594-2EB0-4142-9C05-1C43F909117C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.Helper", "GuideBook.Helper\GuideBook.Helper.csproj", "{C7D1E381-820A-4F15-B3CF-5E658EA5DBD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.Helper", "GuideBook.Helper\GuideBook.Helper.csproj", "{C7D1E381-820A-4F15-B3CF-5E658EA5DBD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.BLayer", "GuideBook.BLayer\GuideBook.BLayer.csproj", "{A9A20E6C-5C7B-461B-B23C-CB8B9084137C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.BLayer", "GuideBook.BLayer\GuideBook.BLayer.csproj", "{A9A20E6C-5C7B-461B-B23C-CB8B9084137C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.ReportService", "GuideBook.ReportService\GuideBook.ReportService.csproj", "{F958C57C-1658-458A-BD6A-0D9E85BCF521}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.ReportService", "GuideBook.ReportService\GuideBook.ReportService.csproj", "{F958C57C-1658-458A-BD6A-0D9E85BCF521}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.UnitTest", "GuideBook.UnitTest\GuideBook.UnitTest.csproj", "{AE5A7F37-3D10-42E1-9322-3EC9E630F75C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.ReportApi", "GuideBook.ReportApi\GuideBook.ReportApi.csproj", "{66847B9C-32DC-4993-9F63-E75B7C75EDF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.ReportApi", "GuideBook.ReportApi\GuideBook.ReportApi.csproj", "{66847B9C-32DC-4993-9F63-E75B7C75EDF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.ContactApi", "GuideBook.ContactApi\GuideBook.ContactApi.csproj", "{FDA72649-D80D-42F8-AF09-6A090C8F1D75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.ContactApi", "GuideBook.ContactApi\GuideBook.ContactApi.csproj", "{FDA72649-D80D-42F8-AF09-6A090C8F1D75}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.Entities", "GuideBook.Entities\GuideBook.Entities.csproj", "{344872A3-A9BA-4E06-94F7-E61123405681}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.Dto", "GuideBook.Dto\GuideBook.Dto.csproj", "{FD854998-1DA9-4070-8F1E-A9193A768E37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.Repository.Interfaces", "GuideBook.Repository.Interfaces\GuideBook.Repository.Interfaces.csproj", "{E6846D7C-41EA-4B53-91E8-1D70081F8C8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.Repository.Interfaces", "GuideBook.Repository.Interfaces\GuideBook.Repository.Interfaces.csproj", "{E6846D7C-41EA-4B53-91E8-1D70081F8C8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.Dal.Interfaces", "GuideBook.Dal.Interfaces\GuideBook.Dal.Interfaces.csproj", "{5FF9EC31-F39E-49AC-A3A9-7EAD71CA803F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.Dal.Interfaces", "GuideBook.Dal.Interfaces\GuideBook.Dal.Interfaces.csproj", "{5FF9EC31-F39E-49AC-A3A9-7EAD71CA803F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.BLayer.Interfaces", "GuideBook.BLayer.Interfaces\GuideBook.BLayer.Interfaces.csproj", "{56BEFAC5-6FA1-4757-A679-81105DCED851}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.BLayer.Interfaces", "GuideBook.BLayer.Interfaces\GuideBook.BLayer.Interfaces.csproj", "{56BEFAC5-6FA1-4757-A679-81105DCED851}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{EC870AED-524A-4951-A786-8DBB192865DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.PersonApi", "GuideBook.PersonApi\GuideBook.PersonApi.csproj", "{89425D76-DE4C-4CA0-BBA7-8CFDF4054317}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,9 +91,18 @@ Global
 		{56BEFAC5-6FA1-4757-A679-81105DCED851}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56BEFAC5-6FA1-4757-A679-81105DCED851}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56BEFAC5-6FA1-4757-A679-81105DCED851}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89425D76-DE4C-4CA0-BBA7-8CFDF4054317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89425D76-DE4C-4CA0-BBA7-8CFDF4054317}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89425D76-DE4C-4CA0-BBA7-8CFDF4054317}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89425D76-DE4C-4CA0-BBA7-8CFDF4054317}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{66847B9C-32DC-4993-9F63-E75B7C75EDF5} = {EC870AED-524A-4951-A786-8DBB192865DA}
+		{FDA72649-D80D-42F8-AF09-6A090C8F1D75} = {EC870AED-524A-4951-A786-8DBB192865DA}
+		{89425D76-DE4C-4CA0-BBA7-8CFDF4054317} = {EC870AED-524A-4951-A786-8DBB192865DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD5E16DD-91E5-4E9B-A842-C90D6B53BF70}

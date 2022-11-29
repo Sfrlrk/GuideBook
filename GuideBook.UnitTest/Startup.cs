@@ -18,8 +18,8 @@ public class Startup
         });
         services.AddScoped<IPersonService, PersonService>();
         services.AddScoped<IPersonRepository, PersonRepository>();
-        services.AddScoped<IContactInfoDal, ContactInfoRepository>();
+        services.AddScoped<IContactInfoRepository, ContactInfoRepository>();
         services.AddScoped<IReportService, ReportService>();
-        services.AddScoped<IReportDal, ReportRepository>();
+        services.AddScoped<IReportRepository, ReportRepository>();
     }
 }

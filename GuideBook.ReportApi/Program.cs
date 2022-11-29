@@ -19,7 +19,7 @@ builder.Services.Configure<MongoDbConnection>(options =>
     options.Database = builder.Configuration.GetSection(nameof(MongoDbConnection) + ":" + MongoDbConnection.DatabaseValue).Value;
 });
 builder.Services.AddScoped<IReportService, ReportService>();
-builder.Services.AddScoped<IReportDal, ReportRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 var app = builder.Build();
 
