@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\GuideBook.BLayer.Interfaces\GuideBook.BLayer.Interfaces.csproj" />
+		<ProjectReference Include="..\GuideBook.Dal\GuideBook.Dal.csproj" />
+		<ProjectReference Include="..\GuideBook.Dto\GuideBook.Dto.csproj" />
+		<ProjectReference Include="..\GuideBook.Entities\GuideBook.Entities.csproj" />
+	</ItemGroup>
+
+</Project>

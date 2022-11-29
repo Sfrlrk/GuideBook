@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\GuideBook.Dal.Interfaces\GuideBook.Dal.Interfaces.csproj" />
+	  <ProjectReference Include="..\GuideBook.Entities\GuideBook.Entities.csproj" />
+	  <ProjectReference Include="..\GuideBook.Helper\GuideBook.Helper.csproj" />
+	  <ProjectReference Include="..\GuideBook.Repository\GuideBook.Repository.csproj" />
+	</ItemGroup>
+
+</Project>
