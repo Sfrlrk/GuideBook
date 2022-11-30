@@ -18,6 +18,7 @@ public class Startup
         });
         services.AddScoped<IPersonService, PersonService>();
         services.AddScoped<IPersonRepository, PersonRepository>();
+        services.AddScoped<IContactInfoService, ContactInfoService>();
         services.AddScoped<IContactInfoRepository, ContactInfoRepository>();
         services.AddScoped<IReportService, ReportService>();
         services.AddScoped<IReportRepository, ReportRepository>();

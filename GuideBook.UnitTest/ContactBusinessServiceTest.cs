@@ -14,6 +14,7 @@ public class ContactBusinessServiceTest
         contactInfoService = _contactInfoService;
     }
 
+    [Fact]
     public async Task CreateContactInfo_Test()
     {
         var person = new PersonDto()

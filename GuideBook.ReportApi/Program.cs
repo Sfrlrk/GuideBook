@@ -20,6 +20,8 @@ builder.Services.Configure<MongoDbConnection>(options =>
 });
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<IContactInfoService, ContactInfoService>();
+builder.Services.AddScoped<IContactInfoRepository, ContactInfoRepository>();
 
 var app = builder.Build();
 
