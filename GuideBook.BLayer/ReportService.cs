@@ -4,30 +4,51 @@ using GuideBook.Dal.Interfaces;
 using GuideBook.Dto;
 using GuideBook.Dto.InfoMessages;
 using GuideBook.Entities;
+using MongoDB.Driver.Core.Operations;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using System;
 using System.Text;
 
 namespace GuideBook.BLayer
 {
     public class ReportService : IReportService
     {
-        private readonly IReportRepository _reportDal;
-        public ReportService(IReportRepository reportDal) => _reportDal = reportDal;
+        private readonly IReportRepository reportRepository;
+        public ReportService(IReportRepository _reportRepository) => reportRepository = _reportRepository;
 
-        public async Task<ServiceResult<bool>> ChangeReportStatus(Guid id)
+        public async Task<ServiceResult<Report>> Create(Report report)
         {
             try
             {
-                var res = await _reportDal.GetAsync(x => x.Id == id);
-                if (res == null)
-                    return new ServiceResult<bool>(nameof(Messages.ReportWasNotFound), Messages.ReportWasNotFound);
-                else
+                if (report == null)
                 {
-                    res.ReportType = EReportType.Completed;
-                    await _reportDal.UpdateAsync(id, res);
-                    return new ServiceResult<bool>(nameof(Messages.Success), Messages.Success, true);
+                    return new ServiceResult<Report>(nameof(Messages.ReportWasNotFound), Messages.ReportWasNotFound);
                 }
+                var res = await reportRepository.AddAsync(report);
+
+                return new ServiceResult<Report>(nameof(Messages.Success), Messages.Success, res);
+            }
+            catch
+            {
+                return new ServiceResult<Report>(nameof(Messages.AnErrorOccured), Messages.AnErrorOccured);
+            }
+        }
+        public async Task<ServiceResult<bool>> ChangeType(Guid id, EReportType reportType = EReportType.Completed)
+        {
+            try
+            {
+                var res = await reportRepository.GetAsync(x => x.Id == id);
+                if (res == null)
+                {
+                    return new ServiceResult<bool>(nameof(Messages.ReportWasNotFound), Messages.ReportWasNotFound);
+                }
+
+                res.ReportType = reportType;
+
+                await reportRepository.UpdateAsync(id, res);
+
+                return new ServiceResult<bool>(nameof(Messages.Success), Messages.Success, true);
             }
             catch
             {
@@ -35,11 +56,11 @@ namespace GuideBook.BLayer
             }
         }
 
-        public async Task<ServiceResult<List<Report>>> GetAllReports()
+        public async Task<ServiceResult<List<Report>>> ToList()
         {
             try
             {
-                var data = await _reportDal.GetAll();
+                var data = await reportRepository.GetAll();
                 return new ServiceResult<List<Report>>(nameof(Messages.Success), Messages.Success, data);
             }
             catch
@@ -48,11 +69,11 @@ namespace GuideBook.BLayer
             }
         }
 
-        public async Task<ServiceResult<Report>> GetReportDetails(Guid id)
+        public async Task<ServiceResult<Report>> GetReport(Guid id)
         {
             try
             {
-                var data = await _reportDal.GetAsync(x => x.Id == id);
+                var data = await reportRepository.GetAsync(x => x.Id == id);
                 return new ServiceResult<Report>(nameof(Messages.Success), Messages.Success, data);
             }
             catch
@@ -61,11 +82,11 @@ namespace GuideBook.BLayer
             }
         }
 
-        public async Task<ServiceResult<ReportViewModel>> ReceiveReportByLocation(string location, string email)
+        public async Task<ServiceResult<ReportViewModel>> CreateReportByLocation(string location, string email)
         {
             try
             {
-                var data = await _reportDal.AddAsync(new Report()
+                var report = await Create(new Report()
                 {
                     ReportType = EReportType.Preparing,
                     Location = location,
@@ -75,10 +96,10 @@ namespace GuideBook.BLayer
                 var newData = new ReportViewModel()
                 {
                     EmailAddress = email,
-                    Id = data.Id,
-                    ReportType = data.ReportType,
-                    Location = data.Location,
-                    RequestDate = data.RequestDate
+                    Id = report.Data.Id,
+                    ReportType = report.Data.ReportType,
+                    Location = report.Data.Location,
+                    RequestDate = report.Data.RequestDate
                 };
 
                 var factory = new ConnectionFactory() { HostName = "localhost" };

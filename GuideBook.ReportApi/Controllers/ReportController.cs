@@ -12,15 +12,15 @@ namespace GuideBook.ReportApi.Controllers
         private readonly IReportService _reportService;
         public ReportController(IReportService reportService) => _reportService = reportService;
 
-        [HttpGet("/RequestReportByLocation/{email_address}/{location}")]
-        public async Task<ServiceResult<ReportViewModel>> ReceiveReportByLocation(string email_address, string location) => await _reportService.ReceiveReportByLocation(location, email_address);
+        [HttpGet("/CreateReportByLocation/{location}/{email_address}")]
+        public async Task<ServiceResult<ReportViewModel>> CreateReportByLocation(string location, string email_address) => await _reportService.CreateReportByLocation(location, email_address);
 
         [HttpGet]
-        [Route("ChangeReportStatus/{reportId}")]
-        public async Task<ServiceResult<bool>> ChangeReportStatus(Guid reportId) => await _reportService.ChangeReportStatus(reportId);
+        [Route("ChangeType/{reportId}")]
+        public async Task<ServiceResult<bool>> ChangeType(Guid reportId) => await _reportService.ChangeType(reportId);
 
         [HttpGet]
-        [Route("/GetAllReports")]
-        public async Task<ServiceResult<List<Report>>> GetAllReports() => await _reportService.GetAllReports();
+        [Route("/ToList")]
+        public async Task<ServiceResult<List<Report>>> ToList() => await _reportService.ToList();
     }
 }

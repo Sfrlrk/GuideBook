@@ -39,13 +39,13 @@ public class Worker : BackgroundService
                     var filePath = ExcelOperations.CreateExcel(res.Location);
                     using (var client = new RestClient("https://localhost:44302/api"))
                     {
-                        var request = new RestRequest($"/Report/ChangeReportStatus/{res.Id}");
+                        var request = new RestRequest($"/Report/ChangeType/{res.Id}");
 
                         var response = client.GetAsync(request).Result;
-                        var changeStatusData = new ServiceResult<bool>();
+
                         if (!string.IsNullOrEmpty(response.Content))
                         {
-                            changeStatusData = JsonConvert.DeserializeObject<ServiceResult<bool>>(response.Content);
+                            var changeStatusData = JsonConvert.DeserializeObject<ServiceResult<bool>>(response.Content);
                         }
                     }
 
