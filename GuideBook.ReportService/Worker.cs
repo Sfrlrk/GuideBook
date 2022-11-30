@@ -1,3 +1,5 @@
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using GuideBook.Dto;
 using GuideBook.Helper;
 using Microsoft.Extensions.Hosting;
@@ -20,7 +22,7 @@ public class Worker : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            _logger.LogInformation($"Worker running at: {DateTimeOffset.Now}");
 
             var factory = new ConnectionFactory() { HostName = "localhost" };
 
@@ -29,32 +31,48 @@ public class Worker : BackgroundService
                 using var channel = connection.CreateModel();
                 var consumer = new EventingBasicConsumer(channel);
                 channel.BasicConsume("MckReport", false, consumer);
-                consumer.Received += (sender, e) =>
+                consumer.Received += async (sender, e) =>
                 {
                     var rawData = e.Body.ToArray();
                     var data = Encoding.UTF8.GetString(rawData);
+                    var reportVm = JsonConvert.DeserializeObject<ReportViewModel>(data);
 
-                    var res = JsonConvert.DeserializeObject<ReportViewModel>(data);
+                    var reportData = await GetReportData(reportVm.Location);
 
-                    var filePath = ExcelOperations.CreateExcel(res.Location);
-                    using (var client = new RestClient("https://localhost:44302/api"))
-                    {
-                        var request = new RestRequest($"/Report/ChangeType/{res.Id}");
+                    var filePath = ExcelOperations.CreateExcel(reportData);
 
-                        var response = client.GetAsync(request).Result;
+                    ChangeType(reportVm.Id, filePath);
 
-                        if (!string.IsNullOrEmpty(response.Content))
-                        {
-                            var changeStatusData = JsonConvert.DeserializeObject<ServiceResult<bool>>(response.Content);
-                        }
-                    }
-
-                    SenderService.SendMail(filePath, res.EmailAddress);
+                    SenderService.SendMail(filePath, reportVm.EmailAddress);
                     channel.BasicAck(e.DeliveryTag, false);
                 };
             }
+            _logger.LogInformation($"Worker Worked at: {DateTimeOffset.Now}");
 
             await Task.Delay(5000, stoppingToken);
         }
+    }
+
+    async Task<ExcelReportViewModel> GetReportData(string location)
+    {
+        var result = await GetAsync<ServiceResult<ExcelReportViewModel>>("https://localhost:44366/api", $"Contact/GetReportByLocation/{location}");
+        return result.Data;
+    }
+    async void ChangeType(Guid Id, string filePath)
+    {
+        await GetAsync<ServiceResult<bool>>("https://localhost:44302/api", $"/Report/ChangeType/{Id}/{filePath}");
+    }
+    async Task<T> GetAsync<T>(string baseUrl, string resource)
+    {
+        using var client = new RestClient(baseUrl);
+        var request = new RestRequest(resource);
+
+        var response = await client.GetAsync(request);
+
+        if (!string.IsNullOrEmpty(response.Content))
+        {
+            return JsonConvert.DeserializeObject<T>(response.Content);
+        }
+        return default;
     }
 }

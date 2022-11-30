@@ -1,4 +1,5 @@
-﻿using GuideBook.BLayer.Interfaces;
+﻿using EnumHelper;
+using GuideBook.BLayer.Interfaces;
 using GuideBook.Dal.Interfaces;
 using GuideBook.Dto;
 using GuideBook.Dto.InfoMessages;
@@ -76,4 +77,32 @@ public class ContactInfoService : EntityService<ContactInfo, ContactInfoDto>, IC
             return new ServiceResult<ContactInfoDto>(nameof(Messages.AnErrorOccured), Messages.AnErrorOccured);
         }
     }
+    public async Task<ServiceResult<ExcelReportViewModel>> GetReportByLocation(string location)
+    {
+        try
+        {
+            var excelReportVm = new ExcelReportViewModel(location);
+
+            var _phoneCount = 0;
+            excelReportVm.PersonCount = await repository.Count(x => x.ContactType == EContactType.Location && x.Info == location);
+
+            var allPerson = await Repository.GetAll();
+            foreach (var item in allPerson)
+            {
+                var personDetails = await repository.GetAll(x => x.PersonId == item.Id);
+                if (personDetails.Any(x => x.Info == location))
+                {
+                    _phoneCount += personDetails.Where(x => x.ContactType == EContactType.Phone).Select(x => x.Info).Distinct().Count();
+                }
+            }
+            excelReportVm.PhoneCount = _phoneCount;
+
+            return new ServiceResult<ExcelReportViewModel>(nameof(Messages.Success), Messages.Success, excelReportVm);
+        }
+        catch
+        {
+            return new ServiceResult<ExcelReportViewModel>(nameof(Messages.AnErrorOccured), Messages.AnErrorOccured);
+        }
+    }
+
 }

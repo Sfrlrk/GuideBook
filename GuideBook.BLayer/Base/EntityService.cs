@@ -19,6 +19,7 @@ public abstract class EntityService<T, DtoT> : IEntityService<T, DtoT> where T :
 
     #region List
     public virtual async Task<IList<DtoT>> ToListAsync() => (await repository.GetAll()).AsQueryable().Select(ToListMap()).ToList();
+    public virtual async Task<long> CountAsync() => await repository.Count();
 
     public virtual Expression<Func<T, DtoT>> ToListMap() => ListMap();
     public abstract Expression<Func<T, DtoT>> ListMap();

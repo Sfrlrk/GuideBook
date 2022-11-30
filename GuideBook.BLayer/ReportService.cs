@@ -4,10 +4,8 @@ using GuideBook.Dal.Interfaces;
 using GuideBook.Dto;
 using GuideBook.Dto.InfoMessages;
 using GuideBook.Entities;
-using MongoDB.Driver.Core.Operations;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
-using System;
 using System.Text;
 
 namespace GuideBook.BLayer
@@ -34,7 +32,7 @@ namespace GuideBook.BLayer
                 return new ServiceResult<Report>(nameof(Messages.AnErrorOccured), Messages.AnErrorOccured);
             }
         }
-        public async Task<ServiceResult<bool>> ChangeType(Guid id, EReportType reportType = EReportType.Completed)
+        public async Task<ServiceResult<bool>> ChangeType(Guid id, string filePath, EReportType reportType = EReportType.Completed)
         {
             try
             {
@@ -45,6 +43,7 @@ namespace GuideBook.BLayer
                 }
 
                 res.ReportType = reportType;
+                res.FilePath = filePath;
 
                 await reportRepository.UpdateAsync(id, res);
 

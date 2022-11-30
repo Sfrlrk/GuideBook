@@ -16,8 +16,8 @@ namespace GuideBook.ReportApi.Controllers
         public async Task<ServiceResult<ReportViewModel>> CreateReportByLocation(string location, string email_address) => await _reportService.CreateReportByLocation(location, email_address);
 
         [HttpGet]
-        [Route("ChangeType/{reportId}")]
-        public async Task<ServiceResult<bool>> ChangeType(Guid reportId) => await _reportService.ChangeType(reportId);
+        [Route("ChangeType/{reportId}/{filePath}")]
+        public async Task<ServiceResult<bool>> ChangeType(Guid reportId, string filePath) => await _reportService.ChangeType(reportId, filePath);
 
         [HttpGet]
         [Route("/ToList")]
