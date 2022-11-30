@@ -65,8 +65,8 @@ public class ReportBusinessServiceTest
             Assert.True(false, "Report not created");
         }
 
-        var changedType = await reportService.ChangeType(resultCreatedReport.Data.Id);
-        Assert.True(changedType.IsSuccess && changedType.Data, "Report not listed");
+        var changedType = await reportService.ChangeType(resultCreatedReport.Data.Id, "temp");
+        Assert.True(changedType.IsSuccess && changedType.Data, "Report not Changed");
     }
 
     [Fact]
@@ -88,6 +88,10 @@ public class ReportBusinessServiceTest
         Assert.True(changedType.IsSuccess && changedType.Data != null, "Report not listed");
     }
 
+    /// <summary>
+    /// rabbitmq kurulu olmadığı için test edilemedi todo
+    /// </summary>
+    /// <returns></returns>
     [Fact]
     public async Task CreateReportByLocation_Test()
     {

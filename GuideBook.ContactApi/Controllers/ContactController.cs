@@ -19,4 +19,8 @@ public class ContactController : ControllerBase
     [HttpPost]
     [Route("Delete/{infoId}")]
     public async Task<ServiceResult<ContactInfoDto>> Delete(Guid infoId) => await contactInfoService.Delete(infoId);
+   
+    [HttpGet]
+    [Route("GetReportByLocation/{location}")]
+    public async Task<ServiceResult<ExcelReportViewModel>> GetReportByLocation(string location) => await contactInfoService.GetReportByLocation(location);
 }

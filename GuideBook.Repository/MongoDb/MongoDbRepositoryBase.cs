@@ -55,4 +55,8 @@ public abstract class MongoDbRepositoryBase<T> : IRepository<T> where T : MongoD
     {
         return filter == null ? await Collection.Find(new BsonDocument()).ToListAsync() : await Collection.Find(filter).ToListAsync();
     }
+    public virtual async Task<long> Count(Expression<Func<T, bool>> filter = null)
+    {
+        return filter == null ? await Collection.Find(new BsonDocument()).CountDocumentsAsync() : await Collection.Find(filter).CountDocumentsAsync();
+    }
 }

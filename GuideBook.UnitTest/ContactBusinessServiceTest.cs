@@ -1,4 +1,4 @@
-using DeepEqual.Syntax;
+﻿using DeepEqual.Syntax;
 using GuideBook.BLayer.Interfaces;
 using GuideBook.Dto;
 
@@ -15,7 +15,7 @@ public class ContactBusinessServiceTest
     }
 
     [Fact]
-    public async Task CreateContactInfo_Test()
+    public async Task CreateContactPhone_Test()
     {
         var person = new PersonDto()
         {
@@ -52,6 +52,43 @@ public class ContactBusinessServiceTest
     }
 
     [Fact]
+    public async Task CreateContactLocation_Test()
+    {
+        var person = new PersonDto()
+        {
+            Company = "Create Contact Company",
+            Name = "Create Contact Name",
+            Surname = "Create Contact UserName"
+        };
+        var addedPerson = await personService.Create(person);
+        if (!addedPerson.IsSuccess)
+        {
+            Assert.True(false, "Person not added");
+        }
+
+        var addInfoUser = await contactInfoService.Create(new ContactInfoDto()
+        {
+            Info = "Aydın",
+            ContactType = EnumHelper.EContactType.Location,
+            PersonId = addedPerson.Data.Id
+        });
+
+        if (!addInfoUser.IsSuccess)
+        {
+            Assert.True(false, "Contact not added");
+        }
+
+        var testResult = addInfoUser.Data.IsDeepEqual(new ContactInfoDto()
+        {
+            Id = addInfoUser.Data.Id,
+            Info = "Aydın",
+            ContactType = EnumHelper.EContactType.Location,
+            PersonId = addedPerson.Data.Id
+        });
+        Assert.True(testResult);
+    }
+
+    [Fact]
     public async Task DeleteContact_Test()
     {
         var person = new PersonDto()
@@ -80,5 +117,36 @@ public class ContactBusinessServiceTest
 
         var removeContact = await contactInfoService.Delete(addInfoUser.Data.Id);
         Assert.True(removeContact.IsSuccess);
+    }
+
+    [Fact]
+    public async Task CountContact_Test()
+    {
+        var person = new PersonDto()
+        {
+            Company = "Create Contact Company",
+            Name = "Create Contact Name",
+            Surname = "Create Contact UserName"
+        };
+        var addedPerson = await personService.Create(person);
+        if (!addedPerson.IsSuccess)
+        {
+            Assert.True(false, "Person not added");
+        }
+
+        var addInfoUser = await contactInfoService.Create(new ContactInfoDto()
+        {
+            Info = "123456",
+            ContactType = EnumHelper.EContactType.Phone,
+            PersonId = addedPerson.Data.Id
+        });
+
+        if (!addInfoUser.IsSuccess)
+        {
+            Assert.True(false, "Contact not added");
+        }
+
+        var testResult = await contactInfoService.CountAsync();
+        Assert.True(testResult > 0, "Contact not found");
     }
 }

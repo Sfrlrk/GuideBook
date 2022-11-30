@@ -14,4 +14,5 @@ public interface IRepository<T> where T : class
     Task<T> DeleteAsync(Guid id);
     Task<T> DeleteAsync(Expression<Func<T, bool>> predicate);
     Task<List<T>> GetAll(Expression<Func<T, bool>> filter = null);
+    Task<long> Count(Expression<Func<T, bool>> filter = null);
 }

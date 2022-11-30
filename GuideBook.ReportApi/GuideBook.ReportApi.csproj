@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GuideBook.BLayer\GuideBook.BLayer.csproj" />
+    <ProjectReference Include="..\GuideBook.Dal\GuideBook.Dal.csproj" />
   </ItemGroup>
 
 </Project>

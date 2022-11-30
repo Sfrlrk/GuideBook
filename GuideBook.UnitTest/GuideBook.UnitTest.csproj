@@ -23,6 +23,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\GuideBook.BLayer\GuideBook.BLayer.csproj" />
+		<ProjectReference Include="..\GuideBook.Dal\GuideBook.Dal.csproj" />
 		<ProjectReference Include="..\GuideBook.Helper\GuideBook.Helper.csproj" />
 	</ItemGroup>
 

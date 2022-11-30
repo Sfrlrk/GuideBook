@@ -12,7 +12,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\GuideBook.BLayer.Interfaces\GuideBook.BLayer.Interfaces.csproj" />
-		<ProjectReference Include="..\GuideBook.Dal\GuideBook.Dal.csproj" />
+		<ProjectReference Include="..\GuideBook.Dal.Interfaces\GuideBook.Dal.Interfaces.csproj" />
 		<ProjectReference Include="..\GuideBook.Dto\GuideBook.Dto.csproj" />
 		<ProjectReference Include="..\GuideBook.Entities\GuideBook.Entities.csproj" />
 	</ItemGroup>

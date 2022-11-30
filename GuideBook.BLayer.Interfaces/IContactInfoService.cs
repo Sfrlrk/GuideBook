@@ -7,4 +7,6 @@ public interface IContactInfoService : IEntityService<ContactInfo, ContactInfoDt
 {
     Task<ServiceResult<ContactInfoDto>> Create(ContactInfoDto dto);
     Task<ServiceResult<ContactInfoDto>> Delete(Guid infoId);
+
+    Task<ServiceResult<ExcelReportViewModel>> GetReportByLocation(string location);
 }
