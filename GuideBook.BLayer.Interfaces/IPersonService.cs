@@ -9,5 +9,4 @@ public interface IPersonService : IEntityService<Person, PersonDto>
     Task<ServiceResult<PersonDto>> Delete(Guid id);
 
     Task<ServiceResult<ContactInfoViewModel>> GetPersonAllData(Guid personId);
-    Task<ServiceResult<ExcelReportViewModel>> GetReportByLocation(string location);
 }

@@ -26,9 +26,4 @@ public class PersonController : ControllerBase
     [HttpPost]
     [Route("Create")]
     public async Task<ServiceResult<PersonDto>> Create([FromBody] PersonDto person) => await _personService.Create(person);
-
-    [HttpGet]
-    [Route("GetReportByLocation/{location}")]
-    public async Task<ServiceResult<ExcelReportViewModel>> GetReportByLocation(string location) => await _personService.GetReportByLocation(location);
-
 }
