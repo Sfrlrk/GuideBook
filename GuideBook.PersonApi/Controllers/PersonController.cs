@@ -12,8 +12,12 @@ public class PersonController : ControllerBase
     public PersonController(IPersonService personService) => _personService = personService;
 
     [HttpGet]
-    [Route("GetAllDetailsByPersonId/{personId}")]
-    public async Task<ServiceResult<ContactInfoViewModel>> GetAllDetailsByPersonId(Guid personId) => await _personService.GetPersonAllData(personId);
+    [Route("List")]
+    public async Task<IList<PersonDto>> ToList() => await _personService.ToListAsync();
+
+    [HttpGet]
+    [Route("GetPersonAllData/{personId}")]
+    public async Task<ServiceResult<ContactInfoViewModel>> GetPersonAllData(Guid personId) => await _personService.GetPersonAllData(personId);
 
     [HttpGet]
     [Route("Delete/{personId}")]
@@ -24,7 +28,7 @@ public class PersonController : ControllerBase
     public async Task<ServiceResult<PersonDto>> Create([FromBody] PersonDto person) => await _personService.Create(person);
 
     [HttpGet]
-    [Route("GetPersonCountWithLocation/{location}")]
-    public async Task<ServiceResult<ExcelReportViewModel>> GetPersonCountWithLocation(string location) => await _personService.GetReportWithLocation(location);
+    [Route("GetReportByLocation/{location}")]
+    public async Task<ServiceResult<ExcelReportViewModel>> GetReportByLocation(string location) => await _personService.GetReportByLocation(location);
 
 }

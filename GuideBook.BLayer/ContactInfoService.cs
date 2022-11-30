@@ -1,7 +1,7 @@
 ﻿using GuideBook.BLayer.Interfaces;
 using GuideBook.Dal.Interfaces;
 using GuideBook.Dto;
-using GuideBook.Dto.ErrorMessages;
+using GuideBook.Dto.InfoMessages;
 using GuideBook.Entities;
 using System.Linq.Expressions;
 
@@ -16,7 +16,7 @@ public class ContactInfoService : EntityService<ContactInfo, ContactInfoDto>, IC
         personRepository = _personRepository;
     }
 
-    public Expression<Func<ContactInfo, ContactInfoDto>> ListMap() => x => new ContactInfoDto
+    public override Expression<Func<ContactInfo, ContactInfoDto>> ListMap() => x => new ContactInfoDto
     {
         Id = x.Id,
         ContactType = x.ContactType,
@@ -44,7 +44,7 @@ public class ContactInfoService : EntityService<ContactInfo, ContactInfoDto>, IC
     {
         try
         {
-            var person = await GetByIdAsync(dto.PersonId);
+            var person = await personRepository.GetByIdAsync(dto.PersonId);
             if (person == null)
             {
                 return new ServiceResult<ContactInfoDto>(nameof(Messages.PersonNotFound), Messages.PersonNotFound);

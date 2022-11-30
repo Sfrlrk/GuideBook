@@ -17,7 +17,9 @@ builder.Services.Configure<MongoDbConnection>(options =>
 {
     options.ConnectionString = builder.Configuration.GetSection(nameof(MongoDbConnection) + ":" + MongoDbConnection.ConnectionStringValue).Value;
     options.Database = builder.Configuration.GetSection(nameof(MongoDbConnection) + ":" + MongoDbConnection.DatabaseValue).Value;
-}); 
+});
+builder.Services.AddScoped<IPersonService, PersonService>();
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddScoped<IContactInfoService, ContactInfoService>();
 builder.Services.AddScoped<IContactInfoRepository, ContactInfoRepository>();
 

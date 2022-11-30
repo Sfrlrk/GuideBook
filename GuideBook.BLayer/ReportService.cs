@@ -2,7 +2,7 @@
 using GuideBook.BLayer.Interfaces;
 using GuideBook.Dal.Interfaces;
 using GuideBook.Dto;
-using GuideBook.Dto.ErrorMessages;
+using GuideBook.Dto.InfoMessages;
 using GuideBook.Entities;
 using Newtonsoft.Json;
 using RabbitMQ.Client;

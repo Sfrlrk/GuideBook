@@ -17,6 +17,13 @@ public abstract class EntityService<T, DtoT> : IEntityService<T, DtoT> where T :
     public virtual async Task<DtoT> GetDTOAsync(Guid Id) => ConvertToDTO(await GetByIdAsync(Id));
     #endregion
 
+    #region List
+    public virtual async Task<IList<DtoT>> ToListAsync() => (await repository.GetAll()).AsQueryable().Select(ToListMap()).ToList();
+
+    public virtual Expression<Func<T, DtoT>> ToListMap() => ListMap();
+    public abstract Expression<Func<T, DtoT>> ListMap();
+    #endregion
+
     #region IsValid
     public virtual bool IsValid(DtoT dto)
     {

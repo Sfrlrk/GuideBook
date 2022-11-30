@@ -1,9 +1,10 @@
 ﻿using EnumHelper;
 using GuideBook.Entities;
 using GuideBook.Dto;
-using GuideBook.Dto.ErrorMessages;
+using GuideBook.Dto.InfoMessages;
 using GuideBook.Dal.Interfaces;
 using GuideBook.BLayer.Interfaces;
+using System.Linq.Expressions;
 
 namespace GuideBook.BLayer;
 
@@ -15,6 +16,7 @@ public class PersonService : EntityService<Person, PersonDto>, IPersonService
     {
         contactInfoRepository = _contactInfoRepository;
     }
+
     public override PersonDto ToDTO(Person bo) => new()
     {
         Id = bo.Id,
@@ -30,6 +32,14 @@ public class PersonService : EntityService<Person, PersonDto>, IPersonService
         bo.Company = dto.Company;
         return bo;
     }
+
+    public override Expression<Func<Person, PersonDto>> ListMap() => x => new PersonDto
+    {
+        Id = x.Id,
+        Name = x.Name,
+        Surname= x.Surname,
+        Company= x.Company,
+    };
 
     public async Task<ServiceResult<PersonDto>> Create(PersonDto person)
     {
@@ -79,7 +89,8 @@ public class PersonService : EntityService<Person, PersonDto>, IPersonService
                     Name = person.Name,
                     Surname = person.Surname,
                     Company = person.Company
-                }
+                },
+                ContactInfos = new List<ContactInfoDto>()
             };
 
             var personDetails = await contactInfoRepository.GetAll(x => x.PersonId == personId);
@@ -100,7 +111,7 @@ public class PersonService : EntityService<Person, PersonDto>, IPersonService
         }
     }
 
-    public async Task<ServiceResult<ExcelReportViewModel>> GetReportWithLocation(string location)
+    public async Task<ServiceResult<ExcelReportViewModel>> GetReportByLocation(string location)
     {
         try
         {
