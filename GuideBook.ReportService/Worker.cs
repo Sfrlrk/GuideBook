@@ -37,13 +37,8 @@ public class Worker : BackgroundService
                     var data = Encoding.UTF8.GetString(rawData);
                     var reportVm = JsonConvert.DeserializeObject<ReportViewModel>(data);
 
-                    var reportData = await GetReportData(reportVm.Location);
+                    CreateReport(reportVm);
 
-                    var filePath = ExcelOperations.CreateExcel(reportData);
-
-                    ChangeType(reportVm.Id, filePath);
-
-                    SenderService.SendMail(filePath, reportVm.EmailAddress);
                     channel.BasicAck(e.DeliveryTag, false);
                 };
             }
@@ -53,14 +48,25 @@ public class Worker : BackgroundService
         }
     }
 
+    async void CreateReport(ReportViewModel reportVm)
+    {
+        var reportData = await GetReportData(reportVm.Location);
+
+        var filePath = ExcelOperations.CreateExcel(reportData);
+
+        ChangeType(reportVm.Id, filePath);
+
+        SenderService.SendMail(filePath, reportVm.EmailAddress);
+    }
+
     async Task<ExcelReportViewModel> GetReportData(string location)
     {
-        var result = await GetAsync<ServiceResult<ExcelReportViewModel>>("https://localhost:44366/api", $"Contact/GetReportByLocation/{location}");
+        var result = await GetAsync<ServiceResult<ExcelReportViewModel>>("https://localhost:5048/api", $"Contact/GetReportByLocation/{location}");
         return result.Data;
     }
     async void ChangeType(Guid Id, string filePath)
     {
-        await GetAsync<ServiceResult<bool>>("https://localhost:44302/api", $"/Report/ChangeType/{Id}/{filePath}");
+        await GetAsync<ServiceResult<bool>>("https://localhost:5100/api", $"/Report/ChangeType/{Id}/{filePath}");
     }
     async Task<T> GetAsync<T>(string baseUrl, string resource)
     {

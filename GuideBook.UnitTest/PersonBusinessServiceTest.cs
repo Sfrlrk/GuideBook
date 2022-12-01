@@ -43,6 +43,25 @@ public class PersonBusinessServiceTest
     }
 
     [Fact]
+    public async Task DeleteAsyncPerson_Test()
+    {
+        var person = new PersonDto()
+        {
+            Company = "TestCompany",
+            Name = "TestName",
+            Surname = "TestSurName"
+        };
+        var resultCreatedPerson = await personService.Create(person);
+        if (!resultCreatedPerson.IsSuccess)
+        {
+            Assert.True(false, "Person not created");
+        }
+
+        var testResult = await personService.DeleteAsync(resultCreatedPerson.Data.Id);
+        Assert.True(testResult != null);
+    }
+
+    [Fact]
     public async Task DeletePerson_Test()
     {
         var person = new PersonDto()

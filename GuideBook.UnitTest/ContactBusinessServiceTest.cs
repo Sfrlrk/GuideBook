@@ -52,6 +52,74 @@ public class ContactBusinessServiceTest
     }
 
     [Fact]
+    public async Task CreateAsyncContactPhone_Test()
+    {
+        var person = new PersonDto()
+        {
+            Company = "Create Contact Company",
+            Name = "Create Contact Name",
+            Surname = "Create Contact UserName"
+        };
+        var addedPerson = await personService.Create(person);
+        if (!addedPerson.IsSuccess)
+        {
+            Assert.True(false, "Person not added");
+        }
+
+        var addInfoUser = await contactInfoService.CreateAsync(new ContactInfoDto()
+        {
+            Info = "123456",
+            ContactType = EnumHelper.EContactType.Phone,
+            PersonId = addedPerson.Data.Id
+        });
+
+        if (addInfoUser == null)
+        {
+            Assert.True(false, "Contact not added");
+        }
+
+        var testResult = addInfoUser.IsDeepEqual(new ContactInfoDto()
+        {
+            Id = addInfoUser.Id,
+            Info = "123456",
+            ContactType = EnumHelper.EContactType.Phone,
+            PersonId = addedPerson.Data.Id
+        });
+        Assert.True(testResult);
+    }
+
+    [Fact]
+    public async Task UpdateAsyncContactPhone_Test()
+    {
+        var person = new PersonDto()
+        {
+            Company = "Create Contact Company",
+            Name = "Create Contact Name",
+            Surname = "Create Contact UserName"
+        };
+        var addedPerson = await personService.Create(person);
+        if (!addedPerson.IsSuccess)
+        {
+            Assert.True(false, "Person not added");
+        }
+
+        var addInfoUser = await contactInfoService.CreateAsync(new ContactInfoDto()
+        {
+            Info = "123456",
+            ContactType = EnumHelper.EContactType.Phone,
+            PersonId = addedPerson.Data.Id
+        });
+
+        if (addInfoUser == null)
+        {
+            Assert.True(false, "Contact not added");
+        }
+
+        await contactInfoService.UpdateAsync(addInfoUser);
+        Assert.True(true);
+    }
+
+    [Fact]
     public async Task CreateContactLocation_Test()
     {
         var person = new PersonDto()
@@ -148,5 +216,36 @@ public class ContactBusinessServiceTest
 
         var testResult = await contactInfoService.CountAsync();
         Assert.True(testResult > 0, "Contact not found");
+    }
+
+    [Fact]
+    public async Task GetReportByLocation_Test()
+    {
+        var person = new PersonDto()
+        {
+            Company = "Create Contact Company",
+            Name = "Create Contact Name",
+            Surname = "Create Contact UserName"
+        };
+        var addedPerson = await personService.Create(person);
+        if (!addedPerson.IsSuccess)
+        {
+            Assert.True(false, "Person not added");
+        }
+
+        var addInfoUser = await contactInfoService.Create(new ContactInfoDto()
+        {
+            Info = "123456",
+            ContactType = EnumHelper.EContactType.Phone,
+            PersonId = addedPerson.Data.Id
+        });
+
+        if (!addInfoUser.IsSuccess)
+        {
+            Assert.True(false, "Contact not added");
+        }
+
+        var testResult = await contactInfoService.GetReportByLocation("Aydın");
+        Assert.True(testResult.IsSuccess && testResult.Data != null, "Contact not found");
     }
 }
