@@ -31,7 +31,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.BLayer.Interfaces
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{EC870AED-524A-4951-A786-8DBB192865DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideBook.PersonApi", "GuideBook.PersonApi\GuideBook.PersonApi.csproj", "{89425D76-DE4C-4CA0-BBA7-8CFDF4054317}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuideBook.PersonApi", "GuideBook.PersonApi\GuideBook.PersonApi.csproj", "{89425D76-DE4C-4CA0-BBA7-8CFDF4054317}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AA8B9369-68BF-4958-9F68-CC21B2A6FA9C}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -24,31 +24,42 @@ public class Worker : BackgroundService
         {
             _logger.LogInformation($"Worker running at: {DateTimeOffset.Now}");
 
+            const string queueName = "Report";
             var factory = new ConnectionFactory() { HostName = "localhost" };
 
-            using (var connection = factory.CreateConnection())
+            var connection = factory.CreateConnection();
+            var channel = connection.CreateModel();
+
+            try
             {
-                using var channel = connection.CreateModel();
-                var consumer = new EventingBasicConsumer(channel);
-                channel.BasicConsume("MckReport", false, consumer);
-                consumer.Received += async (sender, e) =>
-                {
-                    var rawData = e.Body.ToArray();
-                    var data = Encoding.UTF8.GetString(rawData);
-                    var reportVm = JsonConvert.DeserializeObject<ReportViewModel>(data);
-
-                    CreateReport(reportVm);
-
-                    channel.BasicAck(e.DeliveryTag, false);
-                };
+                channel.QueueDeclare(queueName, false, false, false, null);
             }
+            catch { }
+
+            var consumer = new EventingBasicConsumer(channel);
+            channel.BasicConsume(queueName, false, consumer);
+            consumer.Received += async (sender, e) =>
+            {
+                var rawData = e.Body.ToArray();
+                var data = Encoding.UTF8.GetString(rawData);
+                var reportVm = JsonConvert.DeserializeObject<ReportViewModel>(data);
+
+                await CreateReport(reportVm);
+
+                try
+                {
+                    channel.BasicAck(e.DeliveryTag, false);
+                }
+                catch { }
+            };
+
             _logger.LogInformation($"Worker Worked at: {DateTimeOffset.Now}");
 
             await Task.Delay(5000, stoppingToken);
         }
     }
 
-    async void CreateReport(ReportViewModel reportVm)
+    async Task CreateReport(ReportViewModel reportVm)
     {
         var reportData = await GetReportData(reportVm.Location);
 
@@ -56,17 +67,21 @@ public class Worker : BackgroundService
 
         ChangeType(reportVm.Id, filePath);
 
-        SenderService.SendMail(filePath, reportVm.EmailAddress);
+        try
+        {
+            SenderService.SendMail(filePath, reportVm.EmailAddress);
+        }
+        catch { }
     }
 
     async Task<ExcelReportViewModel> GetReportData(string location)
     {
-        var result = await GetAsync<ServiceResult<ExcelReportViewModel>>("https://localhost:5048/api", $"Contact/GetReportByLocation/{location}");
+        var result = await GetAsync<ServiceResult<ExcelReportViewModel>>("http://localhost:5048/api", $"Contact/GetReportByLocation/{location}");
         return result.Data;
     }
     async void ChangeType(Guid Id, string filePath)
     {
-        await GetAsync<ServiceResult<bool>>("https://localhost:5100/api", $"/Report/ChangeType/{Id}/{filePath}");
+        await GetAsync<ServiceResult<bool>>("http://localhost:22634/api", $"/Report/ChangeType/{Id}/{filePath}");
     }
     async Task<T> GetAsync<T>(string baseUrl, string resource)
     {

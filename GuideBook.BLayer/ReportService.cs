@@ -105,11 +105,11 @@ namespace GuideBook.BLayer
                 using (IConnection connection = factory.CreateConnection())
                 using (IModel channel = connection.CreateModel())
                 {
-                    channel.QueueDeclare(queue: "MckReport", durable: false, exclusive: false, autoDelete: false, arguments: null);
+                    channel.QueueDeclare(queue: "Report", durable: false, exclusive: false, autoDelete: false, arguments: null);
                     string message = JsonConvert.SerializeObject(newData);
                     var body = Encoding.UTF8.GetBytes(message);
 
-                    channel.BasicPublish(exchange: "", routingKey: "MckReport", basicProperties: null, body: body);
+                    channel.BasicPublish(exchange: "", routingKey: "Report", basicProperties: null, body: body);
                 }
 
                 return new ServiceResult<ReportViewModel>(nameof(Messages.Success), Messages.Success, newData);

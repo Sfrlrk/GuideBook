@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -25,7 +25,11 @@
 		<PackageReference Include="RabbitMQ.Client" Version="6.2.4" />
 		<PackageReference Include="RestSharp" Version="107.3.0" />
 	</ItemGroup>
-
+	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+	</ItemGroup>
+	
 	<ItemGroup>
 	  <ProjectReference Include="..\GuideBook.Dto\GuideBook.Dto.csproj" />
 	</ItemGroup>
